@@ -10,6 +10,6 @@ The current goal is to improve the user experience, user interface as well as wi
 
 ### Built Using
 
-- javascript, HTML, CSS
-- leaflet.js
-- stamen tiles
+- Javascript, HTML, CSS
+- Leaflet.js
+- Stamen tiles
