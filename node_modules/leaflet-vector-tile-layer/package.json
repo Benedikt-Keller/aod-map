@@ -1,0 +1,55 @@
+{
+  "name": "leaflet-vector-tile-layer",
+  "version": "0.8.0",
+  "description": "Leaflet layer for vector tiles",
+  "keywords": [
+    "leaflet",
+    "vector tiles"
+  ],
+  "homepage": "https://gitlab.com/jkuebart/Leaflet.VectorTileLayer#readme",
+  "bugs": {
+    "url": "https://gitlab.com/jkuebart/Leaflet.VectorTileLayer/issues"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Joachim Kuebart <joachim.kuebart@gmail.com>",
+  "files": [
+    "AUTHORS",
+    "LICENCE",
+    "README.md",
+    "dist/VectorTileLayer.js",
+    "dist/VectorTileLayer.js.map",
+    "dist/VectorTileLayer.min.js",
+    "dist/VectorTileLayer.min.js.map",
+    "dist/VectorTileLayer.umd.js",
+    "dist/VectorTileLayer.umd.js.map",
+    "dist/VectorTileLayer.umd.min.js",
+    "dist/VectorTileLayer.umd.min.js.map",
+    "package.json"
+  ],
+  "main": "dist/VectorTileLayer.umd.min.js",
+  "module": "dist/VectorTileLayer.js",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/jkuebart/Leaflet.VectorTileLayer.git"
+  },
+  "scripts": {
+    "build": "rollup --config",
+    "clean": "rm -fr dist node_modules package-lock.json",
+    "lint": "jslint rollup.config.js package.json src/js/*",
+    "prepare": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@mapbox/vector-tile": "*",
+    "@rollup/plugin-buble": "*",
+    "@rollup/plugin-commonjs": "*",
+    "@rollup/plugin-node-resolve": "*",
+    "jslint-cli": "*",
+    "pbf": "*",
+    "rollup": "*",
+    "rollup-plugin-terser": "*"
+  },
+  "peerDependencies": {
+    "leaflet": "^1.0.0"
+  }
+}
