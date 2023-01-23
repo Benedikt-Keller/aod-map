@@ -6,4 +6,4 @@ This project will focus on improving the Map "Architecture of Doom" currently us
 
 ### Goal
 
-The current goal is to improve the user experience, user interface as well as widen the range of features the map offers for users as well as maintainers of the blog. All content featured on the current map will be included in the new map.
+The current goal is to improve the user experience, user interface as well as widen the range of features the map offers for users as well as maintainers of the blog by rebuilding the map from scratch. All content featured on the current map will be included in the new map.
