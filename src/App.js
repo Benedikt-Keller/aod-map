@@ -1,12 +1,9 @@
 import React from "react";
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
-import { FiHome, FiChevronRight, FiSearch, FiSettings } from "react-icons/fi";
-import { divIcon, Icon, latLng, latLngBounds } from "leaflet";
-import _ from 'lodash';
-import { flushSync } from "react-dom";
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { Icon } from 'leaflet'
+import "./index.css"
 import { useState, useEffect } from "react";
-
-// setting up bounds
+import _ from 'lodash';
 
 export const icon = new Icon({
   iconUrl: "/reddot.svg",
@@ -64,7 +61,6 @@ export default function App() {
         fontWeight: "bold",
         textOverflow: "ellipsis",
         wordWrap: "break-word",
-        overflow: "scroll"
         }}> 
         <h1> {activeMarkerTitle} </h1>
        
@@ -82,7 +78,7 @@ export default function App() {
       })}
     </div>
 
-    <Map center={[50.142255, 8.671575]} 
+    <MapContainer center={[50.142255, 8.671575]} 
     zoom={2.7} 
     maxBounds={[[-90, -260],[90, 260]]} 
     maxBoundsViscosity={1} 
@@ -104,21 +100,24 @@ export default function App() {
         position = {[Number(building.latitude),Number(building.longitude)]}
         icon = {icon}
         key = {building.Text1}
-        onClick={() => {
-          setActiveMarkerTitle(building.Text1);
-          {const links = buildings.features.map(build => {
+        eventHandlers={{
+          click: (e) => {
+            console.log('marker clicked')
+            setActiveMarkerTitle(building.Text1);
+            {const links = buildings.features.map(build => {
             if (build.Text1 === building.Text1){
               console.log(building.Text1, build.Image_URL)
               return build.Image_URL
             }})
-          setActiveMarkerImages(links)
+            setActiveMarkerImages(links)
         }
+          },
         }}
         >
         </Marker>
       ))}
 
-    </Map>
+    </MapContainer>
     </div>
   );
 }
