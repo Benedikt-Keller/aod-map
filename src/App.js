@@ -4,6 +4,7 @@ import { Icon } from 'leaflet'
 import "./index.css"
 import { useState, useEffect } from "react";
 import _ from 'lodash';
+import { getImageSize } from 'react-image-size';
 
 export const icon = new Icon({
   iconUrl: "/reddot.svg",
@@ -20,40 +21,33 @@ function getUnique(arr, comp) {
 return unique;
 }
 
-const loadImage = (setImageDimensions, imageUrl) => {
-  const img = new Image();
-  img.src = imageUrl;
 
-  img.onload = () => {
-    setImageDimensions({
-      height: img.height,
-      width: img.width
+function findFalseImages(buildings){
+  buildings.features.map(buildLinkTest => {
+    getImageSize(buildLinkTest.Image_URL)
+    .then(({ width, height }) => {
+      if (Number(width) < 64){
+          console.log("Wrong Image:", buildLinkTest.Image_URL)
+    }}).catch((errorMessage) => {
+      console.log(errorMessage, buildLinkTest.Text1)
     });
-  };
-  img.onerror = (err) => {
-    console.log("img error");
-    console.error(err);
-  };
-};
-
-
+  })
+}
 
 export default function App() { 
   const [activeMarkerTitle, setActiveMarkerTitle] = React.useState(null);
   const [activeMarkerImages, setActiveMarkerImages] = React.useState([]);
-  const [imageDimensions, setImageDimensions] = useState({});
-  const buildings = require("./data/aod-testcopy.json");
+  const [countError, setCountError] = React.useState(0);
+  const buildings = require("./data/aod.json");
   const uniqueBuildings = getUnique(buildings.features,"Text1");
-  const imageUrl = "";
-  let once = 1;
-  
-   // loadImage(setImageDimensions, imageUrl);
-   // console.log(imageDimensions.width, imageDimensions.height);
 
-  
-  
+  useEffect( 
+    findFalseImages(buildings), // <- function that will run on every dependency update
+    [] // <-- empty dependency array
+  ) 
+ 
   return (
-    <div style={{
+    <div style={{ 
       overflow: "hidden"
     }}> 
     <div className="sidebar" style={{
@@ -70,12 +64,6 @@ export default function App() {
           height: '500px'
         }}/>
         ))} 
-    </div>
-
-    <div>
-      {buildings.features.map(buildLinkTest => {
-        
-      })}
     </div>
 
     <MapContainer center={[50.142255, 8.671575]} 
@@ -104,13 +92,12 @@ export default function App() {
           click: (e) => {
             console.log('marker clicked')
             setActiveMarkerTitle(building.Text1);
-            {const links = buildings.features.map(build => {
+            const links = buildings.features.map(build => {
             if (build.Text1 === building.Text1){
-              console.log(building.Text1, build.Image_URL)
-              return build.Image_URL
+                return build.Image_URL
             }})
             setActiveMarkerImages(links)
-        }
+        
           },
         }}
         >
