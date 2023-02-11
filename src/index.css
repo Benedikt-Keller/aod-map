@@ -27,30 +27,45 @@ code {
   background-color: rgb(255, 255, 255);
 }
 
-.sidebar-header{
-  text-align: left;
-  padding-left: 1%;
-  font-size: 30px;
-  font-weight: bold;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
-}
-
 .img-style{
   width: 98%;
   padding-left: 1%;
 }
 
 .leaflet-container {
-  width: 100%;
+  width: 60%;
   height: 100vh;
   position: absolute;
+  left: 40%;
   z-index: 1;
+}
+
+.sidebar-header{
+  text-align: left;
+  padding-left: 1%;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 
 .content-container{
   display: flex;
   flex-direction: column;
+}
+
+.basic-text{
+  padding-left: 1%;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+.basic-heading{
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+.big-heading{
+  font-size: 40px;
+  font-weight: bold;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
 }

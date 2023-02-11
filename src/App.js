@@ -5,6 +5,7 @@ import "./index.css"
 import { useState, useEffect } from "react";
 import _ from 'lodash';
 import { getImageSize } from 'react-image-size';
+import VectorTileLayer from 'react-leaflet-vector-layer';
 
 export const icon = new Icon({
   iconUrl: "/reddot.svg",
@@ -35,33 +36,54 @@ function findFalseImages(buildings){
 }
 
 export default function App() { 
-  const [activeMarkerTitle, setActiveMarkerTitle] = React.useState(null);
-  const [activeMarkerImages, setActiveMarkerImages] = React.useState([]);
-  const [activeDesc, setActiveDesc] = React.useState("");
+  const [activeMarkerTitle, setActiveMarkerTitle] = React.useState("The Barbican, London, England");
+  const [activeMarkerImages, setActiveMarkerImages] = React.useState(
+    [
+      {
+        link: "https://64.media.tumblr.com/tumblr_lyaji1h7d71r3olkxo1_500.jpg",
+        desc: "\n2012/04/04\n\n    112 notes\n\n\n        Barbican Estate, London, Chamberlin, Powell and Bon, 1965-76. View this on the mapdontrblgme:Apartments (via Thomas Bayes)(via infiniteinterior) \n\n          \n            Tags:\n              \n                 housing\n              \n                 complex\n              \n                 London\n              \n                 1960's\n              \n                 1970's\n              \n          \n\n"
+      }
+    ]
+  );
+  const [activeLatLong, setActiveLatlong] = React.useState(
+      {
+        lat: "51.51898500000003",
+        long: "-0.09371599999999924"
+      }
+  );
   const buildings = require("./data/aod.json");
   const uniqueBuildings = getUnique(buildings.features,"Text1");
 
-  //useEffect( 
-  //  findFalseImages(buildings), // <- function that will run on every dependency update
-  //  [] // <-- empty dependency array
-  //) 
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 2000);
+  }, []);
  
   return (
-    <div style={{ 
+    <>
+    {isLoading ? (<div style={{ 
       overflow: "hidden"
     }}> 
     <div className="sidebar"> 
-        <div className="sidebar-header" > 
-          <h1> {activeMarkerTitle} </h1>
+        <div className="sidebar-header"> 
+          <h1 className="big-heading"> {activeMarkerTitle} </h1>
+          <p className="basic-heading">  <b>latitude: </b>{activeLatLong.lat} <br></br> 
+                <b>longitude: </b>{activeLatLong.long}
+          </p>
         </div>
-        {activeMarkerImages.map(d => (
-          <> 
+        
+        {activeMarkerImages.map(element => (
+          <>
           <div className="content-container">
-            <img src={d} className="img-style"/>
-            {console.log(d)}
+            <img src={element.link} className="img-style"></img>
+            <p className="basic-text"> {element.desc}</p>
           </div>
           </>
-        ))} 
+        ))
+        }
     </div>
 
     <MapContainer center={[50.142255, 8.671575]} 
@@ -69,6 +91,8 @@ export default function App() {
     maxBounds={[[-90, -260],[90, 260]]} 
     maxBoundsViscosity={1} 
     detectRetina={true} 
+    minZoom={3}
+    maxZoom={15}
    >
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}"
@@ -80,7 +104,6 @@ export default function App() {
         tileSize={256}
         zoomOffset= {0}
       />
-
       {uniqueBuildings.map(building => (
         <Marker 
         position = {[Number(building.latitude),Number(building.longitude)]}
@@ -90,15 +113,21 @@ export default function App() {
           click: (e) => {
             console.log('marker clicked')
             setActiveMarkerTitle(building.Text1);
+            setActiveLatlong({
+              lat: building.latitude,
+              long: building.longitude
+            })
+            const links2 = [];
             const links = buildings.features.map(build => {
             if (build.Text1 === building.Text1){
-                return {
-                  "link": build.Image_URL,
-                  "desc": build.Text
-                }
+                links2.push({
+                  link: build.Image_URL,
+                  desc: build.Text
+                })
+                return null
             }})
-            setActiveMarkerImages(links)
-        
+            setActiveMarkerImages(links2)  
+            //console.log(links2)     
           },
         }}
         >
@@ -106,6 +135,14 @@ export default function App() {
       ))}
 
     </MapContainer>
-    </div>
+    </div>) : (
+
+
+
+      <div>
+        <h1>loading</h1>
+      </div>
+    )}
+    </>
   );
 }
