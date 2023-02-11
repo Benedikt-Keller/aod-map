@@ -37,32 +37,30 @@ function findFalseImages(buildings){
 export default function App() { 
   const [activeMarkerTitle, setActiveMarkerTitle] = React.useState(null);
   const [activeMarkerImages, setActiveMarkerImages] = React.useState([]);
-  const [countError, setCountError] = React.useState(0);
+  const [activeDesc, setActiveDesc] = React.useState("");
   const buildings = require("./data/aod.json");
   const uniqueBuildings = getUnique(buildings.features,"Text1");
 
-  useEffect( 
-    findFalseImages(buildings), // <- function that will run on every dependency update
-    [] // <-- empty dependency array
-  ) 
+  //useEffect( 
+  //  findFalseImages(buildings), // <- function that will run on every dependency update
+  //  [] // <-- empty dependency array
+  //) 
  
   return (
     <div style={{ 
       overflow: "hidden"
     }}> 
-    <div className="sidebar" style={{
-        fontSize: "20px",
-        fontWeight: "bold",
-        textOverflow: "ellipsis",
-        wordWrap: "break-word",
-        }}> 
-        <h1> {activeMarkerTitle} </h1>
-       
+    <div className="sidebar"> 
+        <div className="sidebar-header" > 
+          <h1> {activeMarkerTitle} </h1>
+        </div>
         {activeMarkerImages.map(d => (
-        <img src={d} style={{
-          resizeMode: 'contain',
-          height: '500px'
-        }}/>
+          <> 
+          <div className="content-container">
+            <img src={d} className="img-style"/>
+            {console.log(d)}
+          </div>
+          </>
         ))} 
     </div>
 
@@ -94,7 +92,10 @@ export default function App() {
             setActiveMarkerTitle(building.Text1);
             const links = buildings.features.map(build => {
             if (build.Text1 === building.Text1){
-                return build.Image_URL
+                return {
+                  "link": build.Image_URL,
+                  "desc": build.Text
+                }
             }})
             setActiveMarkerImages(links)
         

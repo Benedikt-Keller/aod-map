@@ -13,19 +13,34 @@ code {
 }
 
 .sidebar{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex;
   box-sizing:border-box; 
-  text-align: left;
-  padding-left: 5px;
-  width: 30%;
+  width: 40%;
   height: 100vh;
   border: 1px solid rgb(0, 0, 0); 
   position: absolute;
   z-index: 1000;
   overflow-x: hidden;
   overflow-y: scroll;
-  background-color: antiquewhite;
+  background-color: rgb(255, 255, 255);
+}
+
+.sidebar-header{
+  text-align: left;
+  padding-left: 1%;
+  font-size: 30px;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;;
+  monospace;
+}
+
+.img-style{
+  width: 98%;
+  padding-left: 1%;
 }
 
 .leaflet-container {
@@ -33,4 +48,9 @@ code {
   height: 100vh;
   position: absolute;
   z-index: 1;
+}
+
+.content-container{
+  display: flex;
+  flex-direction: column;
 }
