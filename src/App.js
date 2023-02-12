@@ -3,12 +3,12 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import "./index.css"
 import { useState, useEffect } from "react";
-import _ from 'lodash';
+import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
-import VectorTileLayer from 'react-leaflet-vector-layer';
+import Sidebar from "./components/sidebar";
 
 export const icon = new Icon({
-  iconUrl: "/reddot.svg",
+  iconUrl: "/orreddot.svg",
   iconSize: [15, 15]
 });
 
@@ -30,10 +30,11 @@ function findFalseImages(buildings){
       if (Number(width) < 64){
           console.log("Wrong Image:", buildLinkTest.Image_URL)
     }}).catch((errorMessage) => {
-      console.log(errorMessage, buildLinkTest.Text1)
+          console.log(errorMessage, buildLinkTest.Text1)
     });
   })
 }
+
 
 export default function App() { 
   const [activeMarkerTitle, setActiveMarkerTitle] = React.useState("The Barbican, London, England");
@@ -41,7 +42,11 @@ export default function App() {
     [
       {
         link: "https://64.media.tumblr.com/tumblr_lyaji1h7d71r3olkxo1_500.jpg",
-        desc: "\n2012/04/04\n\n    112 notes\n\n\n        Barbican Estate, London, Chamberlin, Powell and Bon, 1965-76. View this on the mapdontrblgme:Apartments (via Thomas Bayes)(via infiniteinterior) \n\n          \n            Tags:\n              \n                 housing\n              \n                 complex\n              \n                 London\n              \n                 1960's\n              \n                 1970's\n              \n          \n\n"
+        desc: "\n2012/04/04\n\n    112 notes\n\n\n        Barbican Estate, London, Chamberlin, Powell and Bon, 1965-76. View this on the mapdontrblgme:Apartments (via Thomas Bayes)(via infiniteinterior) \n\n          \n            Tags:\n              \n                 housing\n              \n                 complex\n              \n                 London\n              \n                 1960's\n              \n                 1970's\n              \n          \n\n",
+        tags: "",
+        date: "",
+        notes: "",
+        desc: ""
       }
     ]
   );
@@ -51,6 +56,10 @@ export default function App() {
         long: "-0.09371599999999924"
       }
   );
+
+  const [sidebarWidth, setSidebarWidth] = React.useState("sidebar")
+  
+
   const buildings = require("./data/aod.json");
   const uniqueBuildings = getUnique(buildings.features,"Text1");
 
@@ -64,28 +73,10 @@ export default function App() {
  
   return (
     <>
-    {isLoading ? (<div style={{ 
+    {isLoading ? (
+    <div style={{ 
       overflow: "hidden"
     }}> 
-    <div className="sidebar"> 
-        <div className="sidebar-header"> 
-          <h1 className="big-heading"> {activeMarkerTitle} </h1>
-          <p className="basic-heading">  <b>latitude: </b>{activeLatLong.lat} <br></br> 
-                <b>longitude: </b>{activeLatLong.long}
-          </p>
-        </div>
-        
-        {activeMarkerImages.map(element => (
-          <>
-          <div className="content-container">
-            <img src={element.link} className="img-style"></img>
-            <p className="basic-text"> {element.desc}</p>
-          </div>
-          </>
-        ))
-        }
-    </div>
-
     <MapContainer center={[50.142255, 8.671575]} 
     zoom={2.7} 
     maxBounds={[[-90, -260],[90, 260]]} 
@@ -119,14 +110,31 @@ export default function App() {
             })
             const links2 = [];
             const links = buildings.features.map(build => {
-            if (build.Text1 === building.Text1){
+            if (build.Text1 === building.Text1 && build.Image_URL != ""){
+              
+                const splitTags = build.Text.split("Tags:");
+                const splitNotes = build.Text.substring(14,30).split("notes");
+                const splitDesc = build.Text.split("notes")[1].split("Tags:")[0].split("View this on the map");
+                const tags = splitTags[1];
+                const date = build.Text.substring(0,14);
+                const notes = splitNotes[0];
+                const desc = splitDesc[0];
+                
+
                 links2.push({
                   link: build.Image_URL,
-                  desc: build.Text
+                  desc: build.Text,
+                  tags: tags,
+                  date: date,
+                  notes: notes,
+                  desc: desc
                 })
                 return null
             }})
-            setActiveMarkerImages(links2)  
+            setActiveMarkerImages(links2) 
+            setSidebarWidth("sidebar")
+            document.documentElement.style.setProperty("--leaflet-offset", "40%")
+            console.log(sidebarWidth)
             //console.log(links2)     
           },
         }}
@@ -135,10 +143,10 @@ export default function App() {
       ))}
 
     </MapContainer>
+
+    <Sidebar activeMarkerTitle={activeMarkerTitle} activeMarkerImages={activeMarkerImages} sidebarWidth={sidebarWidth} setSidebarWidth={setSidebarWidth} activeLatLong={activeLatLong}/>
+
     </div>) : (
-
-
-
       <div>
         <h1>loading</h1>
       </div>
