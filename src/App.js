@@ -6,9 +6,15 @@ import { useState, useEffect } from "react";
 import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
+import VectorTileLayer from "react-leaflet-vector-layer";
 
 export const icon = new Icon({
   iconUrl: "/orreddot.svg",
+  iconSize: [15, 15]
+});
+
+export const selectedIcon = new Icon({
+  iconUrl: "/selectdot.svg",
   iconSize: [15, 15]
 });
 
@@ -57,9 +63,9 @@ export default function App() {
       }
   );
 
-  const [sidebarWidth, setSidebarWidth] = React.useState("sidebar")
-  
-
+  const [sidebarWidth, setSidebarWidth] = React.useState("sidebar-collapsed")
+  const pageTitle = `${"AOD Map"}`;
+  document.title = pageTitle;
   const buildings = require("./data/aod.json");
   const uniqueBuildings = getUnique(buildings.features,"Text1");
 
@@ -86,7 +92,7 @@ export default function App() {
     maxZoom={15}
    >
       <TileLayer
-        url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}"
+        url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}"
         attribution='&copy; <Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         ext="png"
         minZoom={3}
@@ -95,6 +101,7 @@ export default function App() {
         tileSize={256}
         zoomOffset= {0}
       />
+
       {uniqueBuildings.map(building => (
         <Marker 
         position = {[Number(building.latitude),Number(building.longitude)]}
@@ -102,6 +109,11 @@ export default function App() {
         key = {building.Text1}
         eventHandlers={{
           click: (e) => {
+            // mark current marker
+             <Marker 
+            position = {[Number(building.latitude) + 5 ,Number(building.longitude) + 5]}
+            key = {building.Text} 
+            icon = {selectedIcon}/> 
             console.log('marker clicked')
             setActiveMarkerTitle(building.Text1);
             setActiveLatlong({
@@ -138,17 +150,27 @@ export default function App() {
             //console.log(links2)     
           },
         }}
+        
+
         >
+          <Popup> <img className="select-icon" src="/selectdot.svg" ></img> </Popup>
         </Marker>
       ))}
 
     </MapContainer>
 
-    <Sidebar activeMarkerTitle={activeMarkerTitle} activeMarkerImages={activeMarkerImages} sidebarWidth={sidebarWidth} setSidebarWidth={setSidebarWidth} activeLatLong={activeLatLong}/>
+    <Sidebar 
+    activeMarkerTitle={activeMarkerTitle} 
+    activeMarkerImages={activeMarkerImages} 
+    sidebarWidth={sidebarWidth} 
+    setSidebarWidth={setSidebarWidth} 
+    activeLatLong={activeLatLong}
+    />
 
     </div>) : (
-      <div>
-        <h1>loading</h1>
+      <div className="loading-screen">
+        <h1 className="loading-text">Architecture of Doom - The Map</h1>
+        <img className="loading-icon" src="/orreddot.svg" ></img>
       </div>
     )}
     </>

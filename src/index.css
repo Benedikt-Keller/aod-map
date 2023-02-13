@@ -14,8 +14,9 @@ code {
 
 :root{
   --leaflet-width: 100%;
-  --leaflet-offset: 40%;
+  --leaflet-offset: 0%;
   overflow: hidden;
+  --close-button-size: 60px;
 }
 
  /* width */
@@ -56,6 +57,31 @@ code {
   transition: ease-in 150ms;
 }
 
+@media only screen and (max-width: 900px) {
+  .sidebar{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex;
+    box-sizing:border-box; 
+    width: 100%;
+    height: 100vh;
+    border: 1px solid rgb(0, 0, 0); 
+    position: absolute;
+    z-index: 1000;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    transition: ease-in 150ms;
+  }
+}
+
+.select-icon{
+  height: 15px;
+  width: 15px;
+}
+
+
 .sidebar-collapsed{
   width: 0%;
   overflow: hidden;
@@ -67,12 +93,12 @@ code {
 }
 
 .close-button{
-  width: 8%;
-  height: 8%;
+  width: var(--close-button-size);
+  height: var(--close-button-size);
 }
 .close-button:hover{
-  width: 8%;
-  height: 8%;
+  width: var(--close-button-size);
+  height: var(--close-button-size);
   color: aliceblue;
   background: black;
 }
@@ -123,3 +149,47 @@ code {
   width: 80%;
 }
 
+.loading-screen{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  gap: 10px;
+  -webkit-animation: flickerAnimation 1s infinite;
+  -moz-animation: flickerAnimation 1s infinite;
+  -o-animation: flickerAnimation 1s infinite;
+  animation: flickerAnimation 1s infinite;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+.loading-icon{
+  height: 40px;
+  width: 40px;
+}
+.load-text{
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+@keyframes flickerAnimation {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
