@@ -173,9 +173,9 @@
 
 .leaflet-fade-anim .leaflet-popup {
 	opacity: 0;
-	-webkit-transition: opacity 0.2s linear;
-	   -moz-transition: opacity 0.2s linear;
-	        transition: opacity 0.2s linear;
+	-webkit-transition: opacity 0.1s linear;
+	   -moz-transition: opacity 0.1s linear;
+	        transition: opacity 0.1s linear;
 	}
 .leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
 	opacity: 1;
@@ -347,7 +347,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 .leaflet-control-layers {
 	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-	background: #fff;
+	background: #ffffff;
 	border-radius: 5px;
 	}
 .leaflet-control-layers-toggle {
@@ -393,7 +393,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	}
 .leaflet-control-layers-separator {
 	height: 0;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #000000;
 	margin: 5px -10px 5px -6px;
 	}
 
@@ -472,7 +472,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-popup {
 	position: absolute;
 	text-align: center;
-	margin-bottom: 0px;
+	margin-bottom: -24px;
 	}
 .leaflet-popup-content-wrapper {
 	padding: 1px;
@@ -501,13 +501,20 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	pointer-events: none;
 	}
 .leaflet-popup-tip {
-	width: 0px;
-	height: 0px;
+	height: 15px;
+  	width: 15px;
+  	background-color: #bbb;
+  	border-radius: 50%;
+  	display: inline-block;
+	opacity: 0;
 	}
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-	width: 0px;
-	height: 0px;
+	height: 15px;
+  	width: 15px;
+  	background-color: #000000;
+  	border-radius: 50%;
+  	display: inline-block;
 	}
 .leaflet-container a.leaflet-popup-close-button {
 	width: 0px;
@@ -537,7 +544,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-oldie .leaflet-control-layers,
 .leaflet-oldie .leaflet-popup-content-wrapper,
 .leaflet-oldie .leaflet-popup-tip {
-	border: 1px solid #999;
+	border: 0px solid #999;
 	}
 
 
@@ -545,7 +552,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 .leaflet-div-icon {
 	background: #fff;
-	border: 1px solid #666;
+	border: 0px solid #666;
 	}
 
 

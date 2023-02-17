@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
-import VectorTileLayer from "react-leaflet-vector-layer";
 
 export const icon = new Icon({
   iconUrl: "/orreddot.svg",
@@ -110,10 +109,7 @@ export default function App() {
         eventHandlers={{
           click: (e) => {
             // mark current marker
-             <Marker 
-            position = {[Number(building.latitude) + 5 ,Number(building.longitude) + 5]}
-            key = {building.Text} 
-            icon = {selectedIcon}/> 
+            //MapContainer.setView([Number(building.latitude),Number(building.longitude)], 9)
             console.log('marker clicked')
             setActiveMarkerTitle(building.Text1);
             setActiveLatlong({
@@ -153,7 +149,7 @@ export default function App() {
         
 
         >
-          <Popup> <img className="select-icon" src="/selectdot.svg" ></img> </Popup>
+          <Popup>  </Popup>
         </Marker>
       ))}
 
