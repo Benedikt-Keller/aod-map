@@ -17,10 +17,11 @@ export const selectedIcon = new Icon({
   iconSize: [15, 15]
 });
 
-function MapController(activeLatLong) {
+function MapController({activeLatLong, activeMarkerLat, activeMarkerLng}) {
   const map = useMap()
-  map.panTo([Number(activeLatLong.lat),Number(activeLatLong.long)])
-  console.log('map center:', map.getCenter())
+  map.panTo([Number(activeLatLong.lat),Number(activeLatLong.long)], {animate: true, duration: 0.5} )
+  
+  //console.log('map center:', map.getCenter())
   return null
 }
 
@@ -51,8 +52,8 @@ function findFalseImages(buildings){
 
 export default function App() { 
   const [activeMarkerTitle, setActiveMarkerTitle] = React.useState("The Barbican, London, England");
-  const [activeMarkerLat, setActiveMarkerLat] = React.useState(Number("-1000"));
-  const [activeMarkerLng, setActiveMarkerLng] = React.useState(Number("-1000"));
+  const [activeMarkerLat, setActiveMarkerLat] = React.useState(Number("1000"));
+  const [activeMarkerLng, setActiveMarkerLng] = React.useState(Number("1000"));
 
   const [activeMarkerImages, setActiveMarkerImages] = React.useState(
     [
@@ -100,10 +101,13 @@ export default function App() {
     detectRetina={true} 
     minZoom={3}
     maxZoom={15}
-    
+    zoomControl={false}
     
    >
-      <MapController activeLatLong={activeLatLong}></MapController>
+      <MapController 
+      activeLatLong={activeLatLong} 
+      activeMarkerLat={activeMarkerLat} 
+      activeMarkerLng={activeMarkerLng}></MapController>
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}"
         attribution='&copy; <Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -163,8 +167,9 @@ export default function App() {
             setSidebarWidth("sidebar")
             setActiveMarkerLat(Number(building.latitude))
             setActiveMarkerLng(Number(building.longitude))
-            document.documentElement.style.setProperty("--leaflet-offset", "50%")
-            console.log(sidebarWidth)             
+            document.documentElement.style.setProperty("--leaflet-offset", "25%")      
+            //document.documentElement.style.setProperty("--leaflet-width", "50%")  
+            console.log(activeMarkerLat, activeMarkerLng)    
           },
         }}
         

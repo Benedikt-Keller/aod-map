@@ -186,6 +186,7 @@ code {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  gap: 15px;
   -webkit-animation: flickerAnimation 1s infinite;
   -moz-animation: flickerAnimation 1s infinite;
   -o-animation: flickerAnimation 1s infinite;

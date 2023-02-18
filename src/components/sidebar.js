@@ -16,6 +16,7 @@ function Sidebar({activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideba
         <VscChromeClose className="close-button" onClick={() => {
           setSidebarWidth("sidebar-collapsed")
           document.documentElement.style.setProperty("--leaflet-offset", "0%")
+          document.documentElement.style.setProperty("--leaflet-width", "100%") 
           setActiveMarkerLat(1000)
           setActiveMarkerLng(1000)
 
