@@ -179,12 +179,13 @@ code {
 }
 
 .loading-screen{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
-  height: 100%;
-  margin: 0;
-  gap: 10px;
   -webkit-animation: flickerAnimation 1s infinite;
   -moz-animation: flickerAnimation 1s infinite;
   -o-animation: flickerAnimation 1s infinite;

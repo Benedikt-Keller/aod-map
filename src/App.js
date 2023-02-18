@@ -2,7 +2,7 @@ import React from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import "./index.css"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
@@ -16,6 +16,14 @@ export const selectedIcon = new Icon({
   iconUrl: "/selectdot.svg",
   iconSize: [15, 15]
 });
+
+function MapController(activeLatLong) {
+  const map = useMap()
+  map.panTo([Number(activeLatLong.lat),Number(activeLatLong.long)])
+  console.log('map center:', map.getCenter())
+  return null
+}
+
 
 function getUnique(arr, comp) {
   // store the comparison  values in array
@@ -43,6 +51,9 @@ function findFalseImages(buildings){
 
 export default function App() { 
   const [activeMarkerTitle, setActiveMarkerTitle] = React.useState("The Barbican, London, England");
+  const [activeMarkerLat, setActiveMarkerLat] = React.useState(Number("-1000"));
+  const [activeMarkerLng, setActiveMarkerLng] = React.useState(Number("-1000"));
+
   const [activeMarkerImages, setActiveMarkerImages] = React.useState(
     [
       {
@@ -57,8 +68,8 @@ export default function App() {
   );
   const [activeLatLong, setActiveLatlong] = React.useState(
       {
-        lat: "51.51898500000003",
-        long: "-0.09371599999999924"
+        lat: "50.142255",
+        long: "8.671575"
       }
   );
 
@@ -89,7 +100,10 @@ export default function App() {
     detectRetina={true} 
     minZoom={3}
     maxZoom={15}
+    
+    
    >
+      <MapController activeLatLong={activeLatLong}></MapController>
       <TileLayer
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}"
         attribution='&copy; <Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -100,6 +114,12 @@ export default function App() {
         tileSize={256}
         zoomOffset= {0}
       />
+      <Marker
+      position={[activeMarkerLat,activeMarkerLng]}
+      icon={selectedIcon}
+      key={activeLatLong}
+      zIndexOffset={1000}
+      ></Marker>
 
       {uniqueBuildings.map(building => (
         <Marker 
@@ -139,18 +159,19 @@ export default function App() {
                 })
                 return null
             }})
-            setActiveMarkerImages(links2) 
+            setActiveMarkerImages(links2)
             setSidebarWidth("sidebar")
-            document.documentElement.style.setProperty("--leaflet-offset", "40%")
-            console.log(sidebarWidth)
-            //console.log(links2)     
+            setActiveMarkerLat(Number(building.latitude))
+            setActiveMarkerLng(Number(building.longitude))
+            document.documentElement.style.setProperty("--leaflet-offset", "50%")
+            console.log(sidebarWidth)             
           },
         }}
         
 
         >
-          <Popup>  </Popup>
         </Marker>
+        
       ))}
 
     </MapContainer>
@@ -161,11 +182,13 @@ export default function App() {
     sidebarWidth={sidebarWidth} 
     setSidebarWidth={setSidebarWidth} 
     activeLatLong={activeLatLong}
+    setActiveMarkerLat={setActiveMarkerLat}
+    setActiveMarkerLng={setActiveMarkerLng}
     />
 
     </div>) : (
       <div className="loading-screen">
-        <h1 className="loading-text">Architecture of Doom - The Map</h1>
+        <h1 className="loading-text">Architecture of Doom</h1>
         <img className="loading-icon" src="/orreddot.svg" ></img>
       </div>
     )}

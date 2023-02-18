@@ -7,7 +7,7 @@ function setWidth(setCurrentWidth, width){
 }
 
 
-function Sidebar({activeMarkerTitle, activeMarkerImages, sidebarWidth, setSidebarWidth, activeLatLong}){
+function Sidebar({activeMarkerTitle, activeMarkerImages, sidebarWidth, setSidebarWidth, activeLatLong, setActiveMarkerLat, setActiveMarkerLng}){
     return(
     <div className={sidebarWidth}>
     <div className="sidebar-header"> 
@@ -16,6 +16,9 @@ function Sidebar({activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideba
         <VscChromeClose className="close-button" onClick={() => {
           setSidebarWidth("sidebar-collapsed")
           document.documentElement.style.setProperty("--leaflet-offset", "0%")
+          setActiveMarkerLat(1000)
+          setActiveMarkerLng(1000)
+
         }}/>
         
       </div>
