@@ -8,13 +8,13 @@ import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
 
 export const icon = new Icon({
-  iconUrl: "/orreddot.svg",
-  iconSize: [15, 15]
+  iconUrl: "/blackdot.svg",
+  iconSize: [13, 13]
 });
 
 export const selectedIcon = new Icon({
-  iconUrl: "/selectdot.svg",
-  iconSize: [15, 15]
+  iconUrl: "/orreddot.svg",
+  iconSize: [13, 13]
 });
 
 function MapController({activeLatLong, activeMarkerLat, activeMarkerLng}) {
