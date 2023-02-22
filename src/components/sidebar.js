@@ -12,21 +12,16 @@ function Sidebar({activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideba
     <div className={sidebarWidth}>
     <div className="sidebar-header"> 
       <div className="sidebar-header-title">
-        <h1 className="big-heading"> {activeMarkerTitle} </h1>
+        <div className="sidebar-heading"> 
+        {activeMarkerTitle} 
         <VscChromeClose className="close-button" onClick={() => {
           setSidebarWidth("sidebar-collapsed")
           document.documentElement.style.setProperty("--leaflet-offset", "0%")
-          document.documentElement.style.setProperty("--leaflet-width", "100%") 
           setActiveMarkerLat(1000)
           setActiveMarkerLng(1000)
-
         }}/>
-        
+        </div>  
       </div>
-
-      <p className="basic-heading">  <b>latitude: </b>{activeLatLong.lat} <br></br> 
-            <b>longitude: </b>{activeLatLong.long}
-      </p>
     </div>
     
     {activeMarkerImages.map(element => (

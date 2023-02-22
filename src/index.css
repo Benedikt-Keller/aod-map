@@ -1,22 +1,24 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter';font-size: 58px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Inter';font-size: 58px;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
 }
 
 :root{
   --leaflet-width: 100%;
   --leaflet-offset: 0%;
   overflow: hidden;
-  --close-button-size: 60px;
+  --close-button-size: 50px;
   --sidebar-background: rgb(255, 255, 255);
   --sidebar-text: rgb(0, 0, 0);
   --sidebar-transition: 0.3s cubic-bezier(.77,.04,.18,1.03);
@@ -52,8 +54,8 @@ code {
   justify-content: flex;
   box-sizing:border-box; 
   width: 50%;
-  height: 100vh;
-  border: 1px solid var(--sidebar-text);; 
+  height: 90vh;
+  border-right: 2px solid var(--sidebar-text);; 
   z-index: 1000;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -62,25 +64,7 @@ code {
   transition: var(--sidebar-transition);
 }
 
-@media only screen and (max-width: 1000px) {
-  .sidebar{
-    position: relative;
-    left: 0%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex;
-    box-sizing:border-box; 
-    width: 100%;
-    height: 100vh;
-    border: 1px solid var(--sidebar-text); 
-    z-index: 1000;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    background-color: var(--sidebar-background);
-    color: var(--sidebar-text);
-    transition: var(--sidebar-transition);
-  }
-}
+
 
 .select-icon{
   height: 15px;
@@ -107,35 +91,41 @@ code {
 }
 
 .img-style{
-  width: 98%;
-  padding-left: 1%;
+  width: 100%;
 }
 
+
+
+
+.sidebar-header{
+  text-align: left;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+.sidebar-heading{
+  height: 50px;
+  width: 100%;
+  display: flex;
+  font-family: 'Inter';font-size: 24px;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing:border-box; 
+  border-bottom: 2px solid var(--sidebar-text);
+  padding-left: 2px;
+}
 .close-button{
   width: var(--close-button-size);
   height: var(--close-button-size);
+  box-sizing:border-box; 
+  border-left: 2px solid var(--sidebar-text);
 }
 .close-button:hover{
   width: var(--close-button-size);
   height: var(--close-button-size);
   color: aliceblue;
   background: black;
-}
-
-.leaflet-container {
-  width: var(--leaflet-width);
-  height: 100vh;
-  position: absolute;
-  left: var(--leaflet-offset);
-  z-index: 1;
-  transition: var(--leaflet-cont-transition);
-}
-
-.sidebar-header{
-  text-align: left;
-  padding-left: 1%;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
+  box-sizing:border-box; 
+  border-left: 2px solid var(--sidebar-text);
 }
 
 .sidebar-header-title{
@@ -161,46 +151,39 @@ code {
 
 .basic-text{
   padding-left: 1%;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Inter';font-size: 20px;
 }
 
 .basic-heading{
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Inter';font-size: 58px;
 }
 
 .big-heading{
   font-size: 60px;
   font-weight: bold;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Inter';font-size: 58px;
   width: 80%;
 }
 
 .loading-screen{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: row;
   justify-content: center;
+  align-items: center;
   gap: 15px;
   -webkit-animation: flickerAnimation 1s infinite;
   -moz-animation: flickerAnimation 1s infinite;
   -o-animation: flickerAnimation 1s infinite;
   animation: flickerAnimation 1s infinite;
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Inter';font-size: 58px;
 }
 .loading-icon{
   height: 40px;
   width: 40px;
 }
 .load-text{
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: 'Inter';font-size: 58px;
 }
 
 @keyframes flickerAnimation {
@@ -224,3 +207,68 @@ code {
   100% { opacity:1; }
 }
 
+.header{
+  position: relative;
+  z-index: 1000;
+  height: 10vh;
+  display: flex;
+  font-family: 'Inter';font-size: 58px;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing:border-box; 
+  border-bottom: 2px solid var(--sidebar-text);
+  padding-left: 2px;
+  background-color: #ffffff;
+}
+
+.header-icon{
+  height: 10vh;
+  width: 10vh;
+}
+
+.header-text-fullsize{
+  display: inline-block;
+}
+
+.header-text-small{
+  display: none;
+}
+
+.leaflet-container {
+  width: var(--leaflet-width);
+  height: 90vh;
+  position: absolute;
+  left: var(--leaflet-offset);
+  z-index: 1;
+  transition: var(--leaflet-cont-transition);
+  -webkit-transform: scale(1.35,1.35);
+}
+
+@media only screen and (max-width: 1000px) {
+  .sidebar{
+    position: relative;
+    left: 0%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex;
+    width: 100%;
+    height: 100vh;
+    box-sizing:border-box; 
+    border: 1px solid var(--sidebar-text); 
+    z-index: 1000;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: var(--sidebar-background);
+    color: var(--sidebar-text);
+    transition: var(--sidebar-transition);
+  }
+
+  .header-text-fullsize{
+    display: none;
+  }
+  .header-text-small{
+    display: inline-block;
+  }
+  
+
+}

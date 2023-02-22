@@ -94,6 +94,11 @@ export default function App() {
     <div style={{ 
       overflow: "hidden"
     }}> 
+    <div className="header">
+      <span className="header-text-fullsize">ARCHITECTURE OF DOOM</span>
+      <span className="header-text-small">AOD</span>
+      <img className="header-icon" src="/orreddot.svg"></img>
+    </div>
     <MapContainer center={[50.142255, 8.671575]} 
     zoom={2.7} 
     maxBounds={[[-90, -260],[90, 260]]} 
