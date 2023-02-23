@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { VscChromeClose } from "react-icons/vsc";
 import "./../index.css"
 import { RiSearch2Line } from "react-icons/ri";
+import {HiOutlineArrowUpRight} from "react-icons/hi2";
 
 function setWidth(setCurrentWidth, width) {
   setCurrentWidth(width)
@@ -41,13 +42,29 @@ function Sidebar({ activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideb
         <>
           <div className="content-container">
             <img src={element.link} className="img-style" alt=""></img>
-            <p className="basic-text">
-              <b> date: </b>{element.date} <br />
-              <b> tags: </b>{element.tags} <br />
-              <b> notes: </b>{element.notes} <br />
-              <b> desc: </b>{element.desc} <br />
-              <span className="sidebar-space">‎</span>
-            </p>
+            <div className="post-info">
+              <div className="post-date">
+                <span className="basic-text"> <b> date: </b>{element.date} </span>
+              </div>
+              <div className="post-link"
+              onClick={
+                () => {
+                  window.open(element.link, '_blank', 'noreferrer')
+                }
+               }
+              >
+                <span className="basic-text"> View on Tumblr </span>
+                <HiOutlineArrowUpRight className="post-button"
+                />
+              </div>
+            </div>
+            <div className="post-text">
+              <span className="basic-text">
+                <b> desc: </b>{element.desc} <br />
+              </span>
+              <span className="sidebar-space"> </span>
+              </div>
+            
           </div>
 
         </>

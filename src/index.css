@@ -105,6 +105,8 @@ html {
 }
 .img-style{
   width: 100%;
+  box-sizing:border-box; 
+  border-bottom: 2px solid var(--sidebar-text);
 }
 
 .sidebar-header{
@@ -156,14 +158,61 @@ html {
   flex-direction: column;
 }
 
-.tags-container{
+.post-info{
   display: flex;
   flex-direction: row;
+  height: 50px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  border-bottom: 2px solid var(--sidebar-text);
 }
 
-.tags{
+.post-date{
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  height: 50px;
+  width: 50%;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  border-right: 2px solid var(--sidebar-text);
+}
+
+.post-link{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  width: 50%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000000;
+  color: #ffffff;
+  box-sizing: border-box;
+  
+}
+
+.post-link:hover{
+  background-color: #ff1900;
+  color: #ffffff;
+}
+
+.post-button{
+  width: 50px;
+  height: 50px;
+}
+
+.post-text{
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: start;
+  box-sizing: border-box;
+  border-bottom: 2px solid var(--sidebar-text);
 }
 
 .sidebar-space{
@@ -172,8 +221,19 @@ html {
   height: 100px;
 }
 
+.tags-container{
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.tags{
+  display: flex;
+  justify-content: center;
+}
+
 .basic-text{
-  padding-left: 2px;
+  padding-left: 10px;
   font-family: 'Inter';font-size: 20px;
 }
 
@@ -383,6 +443,7 @@ html {
     border-left: 2px solid var(--sidebar-text);
   }
   .close-button:hover{
+    cursor: pointer;
     width: var(--side-mobile-header-size);
     height: var(--side-mobile-header-size);
     color: aliceblue;
