@@ -16,7 +16,7 @@ html {
 
 :root{
   --leaflet-width: 100%;
-  --leaflet-offset: 0%;
+  --leaflet-offset: translate(0px);
   overflow: hidden;
   --close-button-size: 50px;
   --side-mobile-header-size: 50px;
@@ -260,16 +260,34 @@ html {
   font: 'Inter'; font-size: 30px;
 }
 
-.leaflet-container {
+.leaflet-mover{
+  position: absolute;
+  height: 100%;
+  width: 100%;
   top: 100px;
+  transform:translateX(0%);
+  transition: var(--leaflet-cont-transition);
+
+}
+
+
+.leaflet-mover-right{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 100px;
+  transform:translateX(0%);
+  transition: var(--leaflet-cont-transition);
+
+}
+
+.leaflet-container {
   width: var(--leaflet-width);
   height: -webkit-calc(100% - 100px);
   height: -moz-calc(100% - 100px);
   height: calc(100% - 200px);
   position: absolute;
-  left: var(--leaflet-offset);
   z-index: 1;
-  transition: var(--leaflet-cont-transition);
   -webkit-transform: scale(1.35,1.35);
 }
 
@@ -392,19 +410,5 @@ html {
     box-sizing:border-box; 
     border-left: 2px solid var(--sidebar-text);
   }
-
-  .leaflet-container {
-    top: 100px;
-    width: 100%;
-    height: -webkit-calc(100% - 100px);
-    height: -moz-calc(100% - 100px);
-    height: calc(100% - 100px);
-    position: absolute;
-    left: 0%;
-    z-index: 1;
-    transition: var(--leaflet-cont-transition);
-    -webkit-transform: scale(1.35,1.35);
-  }
-  
 
 }

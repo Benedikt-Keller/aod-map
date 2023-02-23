@@ -1,6 +1,6 @@
 import React from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
-import { Icon } from 'leaflet'
+import { Icon, LatLng } from 'leaflet'
 import "./index.css"
 import { useState, useEffect, useRef } from "react";
 import _, { split } from 'lodash';
@@ -26,7 +26,15 @@ export const recentlySelectedIcon = new Icon({
 
 function MapController({activeLatLong, activeMarkerLat, activeMarkerLng}) {
   const map = useMap()
-  map.panTo([Number(activeLatLong.lat),Number(activeLatLong.long)], {animate: true, duration: 0.5} )
+  const activeLtLng = new LatLng(Number(activeLatLong.lat) ,Number(activeLatLong.long))
+  var x = map.latLngToContainerPoint(activeLtLng).x - window.innerWidth/5.5;
+  var y = map.latLngToContainerPoint(activeLtLng).y;
+  var point = map.containerPointToLatLng([x, y])
+  if(window.innerWidth < 1000){
+    map.panTo([Number(activeLatLong.lat) ,Number(activeLatLong.long)], {animate: true, duration: 0.5} )
+  } else {
+    map.panTo(point, {animate: true, duration: 0.5} )
+  }
   
   //console.log('map center:', map.getCenter())
   return null
@@ -84,6 +92,7 @@ export default function App() {
   );
 
   const [sidebarWidth, setSidebarWidth] = React.useState("sidebar-collapsed")
+  const [leafletOffset, setLeafletOffset] = React.useState("leafet-mover")
 
   const buildings = require("./data/aod.json");
   const uniqueBuildings = getUnique(buildings.features,"Text1");
@@ -113,9 +122,10 @@ export default function App() {
       <img className="header-icon" src="/orreddot.svg"></img>
     </div>
 
+    <div className={leafletOffset}>
     <MapContainer center={[50.142255, 8.671575]} 
     zoom={2.7} 
-    maxBounds={[[-90, -260],[90, 260]]} 
+    maxBounds={[[-300, -300],[90, 260]]} 
     maxBoundsViscosity={1} 
     detectRetina={true} 
     minZoom={3}
@@ -203,13 +213,14 @@ export default function App() {
                 })
                 return null
             }})
+            setLeafletOffset("leaflet-mover-right")
             setActiveMarkerImages(links2)
             setSidebarWidth("sidebar")
             setRecentMarkerLat(activeMarkerLat)
             setRecentMarkerLat(activeMarkerLng)
             setActiveMarkerLat(Number(building.latitude))
             setActiveMarkerLng(Number(building.longitude))
-            document.documentElement.style.setProperty("--leaflet-offset", "25%")  
+            document.documentElement.style.setProperty("--leaflet-offset", "translate(500px)")  
             const sidebarDiv = document.getElementsByClassName('sidebar')[0]
             sidebarDiv.scrollTo({
               top: 0
@@ -226,6 +237,8 @@ export default function App() {
       ))}
 
     </MapContainer>
+    </div>
+    
 
     <Sidebar 
     activeMarkerTitle={activeMarkerTitle} 
@@ -243,7 +256,7 @@ export default function App() {
 
     </div>) : (
       <div className="loading-screen">
-        <span className="loading-text">Architecture of Doom</span>
+        <span className="loading-text"> ARCHITECTURE OF DOOM</span>
         <img className="loading-icon" src="/orreddot.svg" ></img>
       </div>
     )}
