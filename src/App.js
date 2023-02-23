@@ -6,6 +6,8 @@ import { useState, useEffect, useRef } from "react";
 import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
+import { BiExpandAlt } from "react-icons/bi";
+import { MdZoomOutMap } from "react-icons/md";
 
 export const icon = new Icon({
   iconUrl: "/blackdot.svg",
@@ -14,6 +16,11 @@ export const icon = new Icon({
 
 export const selectedIcon = new Icon({
   iconUrl: "/orreddot.svg",
+  iconSize: [13, 13]
+});
+
+export const recentlySelectedIcon = new Icon({
+  iconUrl: "/graydot.svg",
   iconSize: [13, 13]
 });
 
@@ -54,6 +61,8 @@ export default function App() {
   const [activeMarkerTitle, setActiveMarkerTitle] = React.useState("The Barbican, London, England");
   const [activeMarkerLat, setActiveMarkerLat] = React.useState(Number("1000"));
   const [activeMarkerLng, setActiveMarkerLng] = React.useState(Number("1000"));
+  const [recentMarkerLat, setRecentMarkerLat] = React.useState(Number("1000"));
+  const [recentMarkerLng, setRecentMarkerLng] = React.useState(Number("1000"));
 
   const [activeMarkerImages, setActiveMarkerImages] = React.useState(
     [
@@ -75,8 +84,7 @@ export default function App() {
   );
 
   const [sidebarWidth, setSidebarWidth] = React.useState("sidebar-collapsed")
-  const pageTitle = `${"AOD Map"}`;
-  document.title = pageTitle;
+
   const buildings = require("./data/aod.json");
   const uniqueBuildings = getUnique(buildings.features,"Text1");
 
@@ -94,11 +102,17 @@ export default function App() {
     <div style={{ 
       overflow: "hidden"
     }}> 
+
+    <MdZoomOutMap className="expand-button" onClick={() => {
+
+    }}/>
+
     <div className="header">
       <span className="header-text-fullsize">ARCHITECTURE OF DOOM</span>
-      <span className="header-text-small">AOD</span>
+      <span className="header-text-small">ARCHITECTURE OF <br></br>DOOM</span>
       <img className="header-icon" src="/orreddot.svg"></img>
     </div>
+
     <MapContainer center={[50.142255, 8.671575]} 
     zoom={2.7} 
     maxBounds={[[-90, -260],[90, 260]]} 
@@ -118,7 +132,7 @@ export default function App() {
         attribution='&copy; <Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         ext="png"
         minZoom={3}
-        maxZoom={15}
+        maxZoom={30}
         detectRetina={true}
         tileSize={256}
         zoomOffset= {0}
@@ -129,6 +143,27 @@ export default function App() {
       key={activeLatLong}
       zIndexOffset={1000}
       ></Marker>
+
+      <Marker
+      position={[recentMarkerLat,recentMarkerLng]}
+      icon={recentlySelectedIcon}
+      key={recentMarkerLng}
+      zIndexOffset={500}
+      eventHandlers={{
+        click: (e) => {
+          setSidebarWidth("sidebar")
+          setActiveMarkerLat(recentMarkerLat)
+            setActiveMarkerLng(recentMarkerLng)
+          document.documentElement.style.setProperty("--leaflet-offset", "25%")  
+            const sidebarDiv = document.getElementsByClassName('sidebar')[0]
+            sidebarDiv.scrollTo({
+              top: 0
+            })
+        }
+      }}
+      ></Marker>
+
+      
 
       {uniqueBuildings.map(building => (
         <Marker 
@@ -170,11 +205,17 @@ export default function App() {
             }})
             setActiveMarkerImages(links2)
             setSidebarWidth("sidebar")
+            setRecentMarkerLat(activeMarkerLat)
+            setRecentMarkerLat(activeMarkerLng)
             setActiveMarkerLat(Number(building.latitude))
             setActiveMarkerLng(Number(building.longitude))
-            document.documentElement.style.setProperty("--leaflet-offset", "25%")      
+            document.documentElement.style.setProperty("--leaflet-offset", "25%")  
+            const sidebarDiv = document.getElementsByClassName('sidebar')[0]
+            sidebarDiv.scrollTo({
+              top: 0
+            })
             //document.documentElement.style.setProperty("--leaflet-width", "50%")  
-            console.log(activeMarkerLat, activeMarkerLng)    
+            console.log(sidebarDiv)    
           },
         }}
         
@@ -194,11 +235,15 @@ export default function App() {
     activeLatLong={activeLatLong}
     setActiveMarkerLat={setActiveMarkerLat}
     setActiveMarkerLng={setActiveMarkerLng}
+    setRecentMarkerLat={setRecentMarkerLat}
+    setRecentMarkerLng={setRecentMarkerLng}
     />
+
+    
 
     </div>) : (
       <div className="loading-screen">
-        <h1 className="loading-text">Architecture of Doom</h1>
+        <span className="loading-text">Architecture of Doom</span>
         <img className="loading-icon" src="/orreddot.svg" ></img>
       </div>
     )}
