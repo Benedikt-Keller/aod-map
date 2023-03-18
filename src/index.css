@@ -205,14 +205,8 @@ html {
 }
 
 .post-text{
-  padding-top: 10px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: flex-end;
-  align-items: start;
-  box-sizing: border-box;
-  border-bottom: 2px solid var(--sidebar-text);
+  padding-left: 10px;
+  font-family: 'Inter';font-size: 20px;
 }
 
 .sidebar-space{
@@ -336,9 +330,16 @@ html {
   bottom: 0;
   right: 0;
   z-index: 900;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
+  padding: 5px;
   background: rgb(0, 0, 0);
+  color: white;
+}
+
+.expand-button:hover{
+  cursor: pointer;
+  background: #ff1900;
   color: white;
 }
 

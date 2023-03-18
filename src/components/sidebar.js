@@ -9,6 +9,10 @@ function setWidth(setCurrentWidth, width) {
   setCurrentWidth(width)
 }
 
+function postDisplay() {
+  
+}
+
 
 function Sidebar({ activeMarkerTitle, activeMarkerImages, sidebarWidth, setSidebarWidth, activeLatLong, setActiveMarkerLat, setActiveMarkerLng, setRecentMarkerLat, setRecentMarkerLng, setCenterOnMarker, setMarkerClicked }) {
   const sidebarDiv = document.getElementsByClassName("sidebar")
@@ -58,13 +62,10 @@ function Sidebar({ activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideb
                 />
               </div>
             </div>
-            <div className="post-text">
-              <span className="basic-text">
-                <b> desc: </b>{element.desc} <br />
+           
+              <span className="post-text">
+                {element.desc} 
               </span>
-              <span className="sidebar-space"> </span>
-              </div>
-            
           </div>
 
         </>

@@ -7,7 +7,8 @@ import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
 import { BiExpandAlt } from "react-icons/bi";
-import { MdZoomOutMap } from "react-icons/md";
+import { TfiZoomOut } from "react-icons/tfi";
+import { useWindowSize } from "usehooks-ts";
 
 export const icon = new Icon({
   iconUrl: "/blackdot.svg",
@@ -26,13 +27,26 @@ export const recentlySelectedIcon = new Icon({
 
 function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, markerClicked }) {
   const map = useMap()
+  const {width, height } = useWindowSize()
+  const currCenter = map.getCenter()
   const activeLtLng = new LatLng(Number(activeLatLong.lat), Number(activeLatLong.long))
   var x = map.latLngToContainerPoint(activeLtLng).x - window.innerWidth / 5.5;
   var y = map.latLngToContainerPoint(activeLtLng).y;
+  var xb = map.latLngToContainerPoint(currCenter).x + window.innerWidth / 5.5;
+  var yb = map.latLngToContainerPoint(currCenter).y
   var point = map.containerPointToLatLng([x, y])
+  var pointb = map.containerPointToLatLng([xb,yb])
+
+  if(width < 1000){
+    map.panTo(activeLtLng, {
+      animate: true,
+      duration: 0.6,
+      easeLinearity: 0.25
+    })
+  } else {
     if (window.innerWidth < 1000 || centerOnMarker) {
       map.setMaxBounds([[-300, -260], [90, 260]])
-      map.panTo([Number(activeLatLong.lat), Number(activeLatLong.long)], {
+      map.panTo(pointb, {
         animate: true,
         duration: 0.6,
         easeLinearity: 0.25
@@ -48,10 +62,9 @@ function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, marke
         easeLinearity: 0.25
       })
     }
+  }
+    
   
-  
-
-  //console.log('map center:', map.getCenter())
   return null
 }
 
@@ -91,8 +104,11 @@ export default function App() {
   const [recentMarkerLng, setRecentMarkerLng] = React.useState(Number("1000"));
   const [centerOnMarker, setCenterOnMarker] = React.useState(false);
   const [markerClicked, setMarkerClicked] = React.useState(false)
+  const [lastPostDate, setLastPostDate] = React.useState("")
+  
+  
 
-  const [activeMarkerImages, setActiveMarkerImages] = React.useState(
+  const [activerMarkerInfo, setActiveMarkerInfo] = React.useState(
     [
       {
         link: "https://64.media.tumblr.com/tumblr_lyaji1h7d71r3olkxo1_500.jpg",
@@ -113,7 +129,7 @@ export default function App() {
 
   const [sidebarWidth, setSidebarWidth] = React.useState("sidebar-collapsed")
 
-  const buildings = require("./data/aod.json");
+  const buildings = require("./data/aodnewtest1.json");
   const uniqueBuildings = getUnique(buildings.features, "Text1");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -131,7 +147,7 @@ export default function App() {
           overflow: "hidden"
         }}>
 
-          <MdZoomOutMap className="expand-button" onClick={() => {
+          <TfiZoomOut className="expand-button" onClick={() => {
 
           }} />
 
@@ -147,7 +163,7 @@ export default function App() {
             maxBounds={[[-300, -260], [90, 260]]}
             maxBoundsViscosity={1}
             detectRetina={true}
-            minZoom={3}
+            minZoom={1.5}
             maxZoom={15}
             zoomControl={false}
 
@@ -163,7 +179,7 @@ export default function App() {
               url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}"
               attribution='&copy; <Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               ext="png"
-              minZoom={2}
+              minZoom={1}
               maxZoom={30}
               detectRetina={true}
               tileSize={256}
@@ -221,30 +237,64 @@ export default function App() {
                     const links2 = [];
                     const links = buildings.features.map(build => {
                       if (build.Text1 === building.Text1 && build.Image_URL != "") {
+                        var tags; 
+                        var date;
+                        var notes
+                        var desc;
+                        if (build.Text === ""){
+                          tags = "";
+                          date = lastPostDate;
+                          notes = "";
+                          desc = "";
 
-                        const splitTags = build.Text.split("Tags:");
-                        const splitNotes = build.Text.substring(14, 30).split("notes");
-                        const splitDesc = build.Text.split("notes")[1].split("Tags:")[0].split("View this on the map");
-                        const tags = splitTags[1];
-                        const date = build.Text.substring(0, 14);
-                        const notes = splitNotes[0];
-                        const desc = splitDesc[0];
-
-
-                        links2.push({
-                          link: build.Image_URL,
-                          desc: build.Text,
-                          tags: tags,
-                          date: date,
-                          notes: notes,
-                          desc: desc
-                        })
+                        } else {
+                          const splitTags = build.Text.split("Tags:");
+                          const splitNotes = build.Text.substring(14, 30).split("notes");
+                          const splitDesc = build.Text.split("notes")[1].split("Tags:")[0].split("View this on the map");
+                          tags = splitTags[1];
+                          date = build.Text.substring(0, 14);
+                          notes = splitNotes[0];
+                          desc = splitDesc[0];
+                          setLastPostDate(date);
+                        }
+                          
+                         
+                        
+                        if(build.Text === ""){
+                          links2.push({
+                              link: build.Multiple_Images_URL,
+                              desc: "",
+                              tags: "",
+                              date: "",
+                              notes: "",
+                              desc: ""
+                          })
+                        } else {
+                          if(build.Multiple_Images_URL === ""){
+                            links2.push({
+                              link: build.Single_Image_URL,
+                              tags: tags,
+                              date: date,
+                              notes: notes,
+                              desc: "desc" + desc
+                            })
+                          } else {
+                            links2.push({
+                              link: build.Multiple_Images_URL,
+                              tags: tags,
+                              date: date,
+                              notes: notes,
+                              desc: "desc: " + desc
+                          })
+                          }
+                        }
                         return null
                       }
                     })
+                    const uniqueLinks = [...new Map(links2.map((m) => [m.link, m])).values()];
                     setMarkerClicked(true)
                     setCenterOnMarker(false)
-                    setActiveMarkerImages(links2)
+                    setActiveMarkerInfo(uniqueLinks)
                     setSidebarWidth("sidebar")
                     setRecentMarkerLat(activeMarkerLat)
                     setRecentMarkerLat(activeMarkerLng)
@@ -273,7 +323,7 @@ export default function App() {
 
           <Sidebar
             activeMarkerTitle={activeMarkerTitle}
-            activeMarkerImages={activeMarkerImages}
+            activeMarkerImages={activerMarkerInfo}
             sidebarWidth={sidebarWidth}
             setSidebarWidth={setSidebarWidth}
             activeLatLong={activeLatLong}
