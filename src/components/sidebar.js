@@ -47,10 +47,10 @@ function Sidebar({ activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideb
           <div className="content-container">
             <img src={element.link} className="img-style" alt=""></img>
             <div className="post-info">
-              <div className="post-date">
-                <span className="basic-text"> <b> date: </b>{element.date} </span>
+              <div className={element.date === "" ? "post-date-disable" : "post-date"}>
+                <span className="basic-text">  date: {element.date} </span>
               </div>
-              <div className="post-link"
+              <div className={element.date === "" ? "post-link-disabled-date" : "post-link"}
               onClick={
                 () => {
                   window.open(element.link, '_blank', 'noreferrer')
@@ -63,7 +63,7 @@ function Sidebar({ activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideb
               </div>
             </div>
            
-              <span className="post-text">
+              <span className={element.desc === "" ? "post-text-disabled": "post-text"}>
                 {element.desc} 
               </span>
           </div>
