@@ -106,7 +106,7 @@ html {
 .img-style{
   width: 100%;
   box-sizing:border-box; 
-  border-bottom: 2px solid var(--sidebar-text);
+  border-top: 2px solid var(--sidebar-text);
 }
 
 .sidebar-header{
@@ -124,13 +124,40 @@ html {
   height: 50px;
   width: 100%;
   display: flex;
-  padding-left: 10px;
   font-family: 'Inter';font-size: var(--sidebar-text-size);
   justify-content: space-between;
   align-items: center;
   box-sizing:border-box; 
   border-bottom: 2px solid var(--sidebar-text);
   transition: var(--sidebar-transition);
+}
+.sidebar-header-text{
+  height: 50px;
+  width: 100%;
+  padding-left: 5px;
+  display: flex;
+  font-family: 'Inter';font-size: var(--sidebar-text-size);
+  justify-content: space-between;
+  align-items: center;
+  box-sizing:border-box; 
+}
+.sidebar-header-text:hover{
+  cursor: pointer;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  font-family: 'Inter';font-size: var(--sidebar-text-size);
+  justify-content: first start;
+  align-items: center;
+  color: rgb(255, 255, 255);
+  background: black;
+  box-sizing:border-box; 
+}
+.sidebar-header-buttons{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing:border-box; 
 }
 .close-button{
   width: var(--close-button-size);
@@ -142,10 +169,15 @@ html {
   cursor: pointer;
   width: var(--close-button-size);
   height: var(--close-button-size);
-  color: aliceblue;
+  color: rgb(255, 255, 255);
   background: black;
   box-sizing:border-box; 
   border-left: 2px solid var(--sidebar-text);
+}
+.google-button{
+  width: calc(var(--close-button-size) - 4px);
+  height: calc(var(--close-button-size) - 4px);
+  box-sizing:border-box; 
 }
 
 .sidebar-header-title{
@@ -167,7 +199,7 @@ html {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  border-bottom: 2px solid var(--sidebar-text);
+  border-top: 2px solid var(--sidebar-text);
 }
 
 .post-date{
@@ -234,12 +266,13 @@ html {
 }
 
 .post-button{
-  width: 50px;
-  height: 50px;
+  width: calc(var(--close-button-size) - 4px);
+  height: calc(var(--close-button-size) - 4px);
 }
 
 .post-text{
-  padding: 10px;
+  padding: 5px;
+  padding-bottom: 25px;
   font-family: 'Inter';font-size: var(--sidebar-text-size);
   display: flex;
   flex-direction: row;
@@ -247,8 +280,10 @@ html {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  border-bottom: 2px solid var(--sidebar-text);
+  border-top: 2px solid var(--sidebar-text);
 }
+
+
 
 .post-text-disabled{
   display: none;
@@ -272,7 +307,7 @@ html {
 }
 
 .basic-text{
-  padding-left: 10px;
+  padding-left: 5px;
   font-family: 'Inter';font-size: var(--sidebar-text-size);
 }
 
@@ -340,9 +375,61 @@ html {
   justify-content: space-between;
   align-items: center;
   box-sizing:border-box; 
-  border-bottom: 2px solid var(--sidebar-text);
-  padding-left: 2px;
+  padding-left: 5px;
   background-color: #ffffff;
+}
+
+.header-text-container{
+  height: 100px;
+  display: flex;
+  font-family: 'Inter';font-size: 58px;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing:border-box; 
+  gap: 10px;
+  background-color: #ffffff;
+}
+
+.header-text-small{
+  display: inline-block;
+  font: 'Inter'; font-size: 30px;
+}
+.header-links{
+  padding-top: 12px;
+  height: 100px;
+  display: flex;
+  font-family: 'Inter';font-size: 58px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  box-sizing:border-box; 
+  gap: 18px;
+  background-color: #ffffff;
+}
+
+.header-link{
+  display: inline-block;
+  font: 'Inter'; font-size: 16px;
+  
+}
+.header-link:hover{
+  cursor: pointer;
+}
+
+.line {
+  position: absolute;
+  z-index: 1500;
+  top: 99px;
+  width: 0%;
+  height: 2px;
+  background-color: black;
+  transform-origin: center top;
+  transition: width var(--sidebar-transition), opacity 0.1s ease-in ;
+  
+}
+.line.active {
+  width: 100%;
+  transition: width var(--sidebar-transition), opacity 0.1s ease-in ;
 }
 
 .header-icon{
@@ -350,15 +437,7 @@ html {
   width: 100px;
 }
 
-.header-text-fullsize{
-  display: inline-block;
-}
 
-.header-text-small{
-  width: 100%;
-  display: none;
-  font: 'Inter'; font-size: 30px;
-}
 
 
 .leaflet-container {
@@ -441,13 +520,15 @@ html {
   justify-content: space-between;
   align-items: center;
   box-sizing:border-box; 
-  border-bottom: 2px solid var(--sidebar-text);
   padding-left: 2px;
   background-color: #ffffff;
   }
-  .header-text-fullsize{
-    display: none;
+
+  .line.active {
+    width: 100%;
+    transition: width var(--sidebar-transition), opacity 0.1s ease-in ;
   }
+
   .header-text-small{
     display: inline-block;
   }

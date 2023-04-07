@@ -25,7 +25,7 @@ export const recentlySelectedIcon = new Icon({
   iconSize: [13, 13]
 });
 
-function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, markerClicked }) {
+function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, markerClicked, zoomOut, setZoomOut }) {
   const map = useMap()
   const {width, height } = useWindowSize()
   const currCenter = map.getCenter()
@@ -36,7 +36,6 @@ function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, marke
   var yb = map.latLngToContainerPoint(currCenter).y
   var point = map.containerPointToLatLng([x, y])
   var pointb = map.containerPointToLatLng([xb,yb])
-
   if(width < 1000){
     map.panTo(activeLtLng, {
       animate: true,
@@ -105,6 +104,7 @@ export default function App() {
   const [centerOnMarker, setCenterOnMarker] = React.useState(false);
   const [markerClicked, setMarkerClicked] = React.useState(false)
   const [lastPostDate, setLastPostDate] = React.useState("")
+  const [zoomOut, setZoomOut] = React.useState(false);
   
   
 
@@ -116,7 +116,7 @@ export default function App() {
         tags: "",
         date: "",
         notes: "",
-        desc: ""
+        pageurl: ""
       }
     ]
   );
@@ -129,7 +129,7 @@ export default function App() {
 
   const [sidebarWidth, setSidebarWidth] = React.useState("sidebar-collapsed")
 
-  const buildings = require("./data/aodnewtest1.json");
+  const buildings = require("./data/aodscrape.json");
   const uniqueBuildings = getUnique(buildings.features, "Text1");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -147,15 +147,30 @@ export default function App() {
           overflow: "hidden"
         }}>
 
-          <TfiZoomOut className="expand-button" onClick={() => {
-
-          }} />
+          
 
           <div className="header">
-            <span className="header-text-fullsize">ARCHITECTURE OF DOOM</span>
-            <span className="header-text-small">ARCHITECTURE OF <br></br>DOOM</span>
-            <img className="header-icon" src="/orreddot.svg"></img>
+          <span className="header-text-small">ARCHITECTURE OF <br></br>DOOM</span>
+            <div className="header-text-container">
+                <div className="header-links">
+                  <span className="header-link" onClick={() => {
+                      window.open("https://architectureofdoom.tumblr.com", "_self")
+                  }}>  
+                  <u> tumblr </u>  </span>
+                  <span className="header-link" onClick={() => {
+                      window.open("https://architectureofdoom.tumblr.com/archive", "_self")
+                  }}> 
+                  <u> archive  </u></span>
+                </div>
+                <img className="header-icon" src="/orreddot.svg"></img>
+            </div>
+            
+            
           </div>
+
+          <div className={`line ${markerClicked ? 'active' : ''}`}></div>
+         
+
 
 
           <MapContainer center={[50.142255, 8.671575]}
@@ -173,6 +188,8 @@ export default function App() {
               centerOnMarker={centerOnMarker}
               setCenterOnMarker={setCenterOnMarker}
               markerClicked={markerClicked}
+              zoomOut={zoomOut}
+              setZoomOut={setZoomOut}
             ></MapController>
 
             <TileLayer
@@ -204,14 +221,7 @@ export default function App() {
                   setSidebarWidth("sidebar")
                   setActiveMarkerLat(recentMarkerLat)
                   setActiveMarkerLng(recentMarkerLng)
-                  const sidebarDiv = document.getElementsByClassName('sidebar')[0]
-                  try {
-                    sidebarDiv.scrollTo({
-                      top: 0
-                    })
-                  } catch (error) {
-
-                  }
+                  
 
                 }
               }}
@@ -241,6 +251,7 @@ export default function App() {
                         var date;
                         var notes
                         var desc;
+                        var pageurl = build.Page_URL === "" ? build.Page_URL1 : build.Page_URL;
                         if (build.Text === ""){
                           tags = "";
                           date = lastPostDate;
@@ -267,7 +278,7 @@ export default function App() {
                               tags: "",
                               date: "",
                               notes: "",
-                              desc: ""
+                              pageurl: pageurl
                           })
                         } else {
                           if(build.Multiple_Images_URL === ""){
@@ -276,7 +287,8 @@ export default function App() {
                               tags: tags,
                               date: date,
                               notes: notes,
-                              desc: "desc" + desc
+                              desc: "desc:" + desc,
+                              pageurl: pageurl
                             })
                           } else {
                             links2.push({
@@ -284,7 +296,8 @@ export default function App() {
                               tags: tags,
                               date: date,
                               notes: notes,
-                              desc: "desc: " + desc
+                              desc: "desc: " + desc,
+                              pageurl: pageurl
                           })
                           }
                         }
@@ -300,14 +313,7 @@ export default function App() {
                     setRecentMarkerLat(activeMarkerLng)
                     setActiveMarkerLat(Number(building.latitude))
                     setActiveMarkerLng(Number(building.longitude))
-                    const sidebarDiv = document.getElementsByClassName('sidebar')[0]
-                    try {
-                      sidebarDiv.scrollTo({
-                        top: 0
-                      })
-                    } catch (error) {
-
-                    }
+                    
                   },
                 }}
 

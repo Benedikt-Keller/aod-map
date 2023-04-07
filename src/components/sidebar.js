@@ -4,25 +4,32 @@ import { VscChromeClose } from "react-icons/vsc";
 import "./../index.css"
 import { RiSearch2Line } from "react-icons/ri";
 import {HiOutlineArrowUpRight} from "react-icons/hi2";
-
-function setWidth(setCurrentWidth, width) {
-  setCurrentWidth(width)
-}
-
-function postDisplay() {
-  
-}
-
+import { RiGoogleLine } from "react-icons/ri";
+import { IoSearchOutline } from "react-icons/io5";
 
 function Sidebar({ activeMarkerTitle, activeMarkerImages, sidebarWidth, setSidebarWidth, activeLatLong, setActiveMarkerLat, setActiveMarkerLng, setRecentMarkerLat, setRecentMarkerLng, setCenterOnMarker, setMarkerClicked }) {
   const sidebarDiv = document.getElementsByClassName("sidebar")
+  useEffect(() => {
+    if (sidebarWidth === "sidebar") {
+      const sidebarDiv = document.getElementsByClassName('sidebar')[0];
+      sidebarDiv.scrollTo({
+        top: 0,
+      });
+    }
+  }, [sidebarWidth]);
   return (
-
+    
     <div id="sidebar" className={sidebarWidth}>
       <div className="sidebar-header">
         <div className="sidebar-header-title">
           <div className="sidebar-heading">
-            {activeMarkerTitle}
+            <div className="sidebar-header-text" onClick={() => {
+              window.open("https://www.google.com/search?q=" + activeMarkerTitle, '_blank')
+            }}>
+              {activeMarkerTitle}
+              <IoSearchOutline className="google-button"/>
+            </div>
+            <div className="sidebar-header-buttons">
             <VscChromeClose className="close-button" onClick={() => {
               setSidebarWidth("sidebar-collapsed")
               document.documentElement.style.setProperty("--leaflet-offset", "0%")
@@ -32,12 +39,9 @@ function Sidebar({ activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideb
               setActiveMarkerLng(1000)
               setCenterOnMarker(true)
               setMarkerClicked(false)
-              const sidebarDiv = document.getElementsByClassName('sidebar')[0]
-              sidebarDiv.scrollTo({
-                top: 0,
-                behavior: "smooth"
-              })
+              
             }} />
+            </div>         
           </div>
         </div>
       </div>
@@ -53,7 +57,7 @@ function Sidebar({ activeMarkerTitle, activeMarkerImages, sidebarWidth, setSideb
               <div className={element.date === "" ? "post-link-disabled-date" : "post-link"}
               onClick={
                 () => {
-                  window.open(element.link, '_blank', 'noreferrer')
+                  window.open(element.pageurl, '_blank')
                 }
                }
               >
