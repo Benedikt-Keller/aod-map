@@ -2,7 +2,7 @@ import React from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { Icon, LatLng, marker } from 'leaflet'
 import "./index.css"
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
@@ -25,8 +25,16 @@ export const recentlySelectedIcon = new Icon({
 
 function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, markerClicked, zoomOut, setZoomOut }) {
   const map = useMap()
-  const {width, height } = useWindowSize()
-  const memoizedWindowSize = useMemo(() => ({ width, height }), [width, height]);
+  const windowSizeRef = useRef({ width: window.innerWidth, height: window.innerHeight });
+
+  useEffect(() => {
+    const handleResize = () => {
+      windowSizeRef.current = { width: window.innerWidth, height: window.innerHeight };
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const { width, height } = windowSizeRef.current;
   const currCenter = map.getCenter()
   const activeLtLng = new LatLng(Number(activeLatLong.lat), Number(activeLatLong.long))
   var x = map.latLngToContainerPoint(activeLtLng).x - window.innerWidth / 5.5;
