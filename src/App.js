@@ -2,12 +2,10 @@ import React from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import { Icon, LatLng, marker } from 'leaflet'
 import "./index.css"
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
-import { BiExpandAlt } from "react-icons/bi";
-import { TfiZoomOut } from "react-icons/tfi";
 import { useWindowSize } from "usehooks-ts";
 
 export const icon = new Icon({
@@ -28,6 +26,7 @@ export const recentlySelectedIcon = new Icon({
 function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, markerClicked, zoomOut, setZoomOut }) {
   const map = useMap()
   const {width, height } = useWindowSize()
+  const memoizedWindowSize = useMemo(() => ({ width, height }), [width, height]);
   const currCenter = map.getCenter()
   const activeLtLng = new LatLng(Number(activeLatLong.lat), Number(activeLatLong.long))
   var x = map.latLngToContainerPoint(activeLtLng).x - window.innerWidth / 5.5;
@@ -54,7 +53,6 @@ function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, marke
       if(markerClicked){
         map.setMaxBounds([[-300, -400], [90, 300]])
       }
-      
       map.panTo(point, { 
         animate: true, 
         duration: 0.6,
@@ -92,7 +90,6 @@ function findFalseImages(buildings) {
   })
 }
 
-
 export default function App() {
   const calcHeight = (window.innerHeight - 100).toString()
   document.documentElement.style.setProperty('--leaflet-height', calcHeight)
@@ -105,8 +102,6 @@ export default function App() {
   const [markerClicked, setMarkerClicked] = React.useState(false)
   const [lastPostDate, setLastPostDate] = React.useState("")
   const [zoomOut, setZoomOut] = React.useState(false);
-  
-  
 
   const [activerMarkerInfo, setActiveMarkerInfo] = React.useState(
     [
@@ -151,6 +146,7 @@ export default function App() {
 
           <div className="header">
           <span className="header-text-small">ARCHITECTURE OF <br></br>DOOM</span>
+          <span className="header-text-small-small">ARCHITECTURE OF <br></br>DOOM</span>
             <div className="header-text-container">
                 <div className="header-links">
                   <span className="header-link" onClick={() => {
@@ -164,8 +160,16 @@ export default function App() {
                 </div>
                 <img className="header-icon" src="/orreddot.svg"></img>
             </div>
-            
-            
+          </div>
+          <div className="header-links-small">
+                  <span className="header-link" onClick={() => {
+                      window.open("https://architectureofdoom.tumblr.com", "_self")
+                  }}>  
+                  <u> tumblr </u>  </span>
+                  <span className="header-link" onClick={() => {
+                      window.open("https://architectureofdoom.tumblr.com/archive", "_self")
+                  }}> 
+                  <u> archive  </u></span>
           </div>
 
           <div className={`line ${markerClicked ? 'active' : ''}`}></div>
