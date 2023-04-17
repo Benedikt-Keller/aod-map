@@ -511,12 +511,6 @@ html {
   animation-timing-function: var(--sidebar-transition);
 }
 
-@keyframes sidebar-closing {
-  0%   {left: -100%; top: 100px;}
-  50%  {left: -100%; top: 100vh}
-  100% {left: -50%; top: 100vh}
-}
-
 .sidebar-collapsed{
   position: absolute;
   top: 100vh;
@@ -535,9 +529,6 @@ html {
   overflow-y: scroll;
   background-color: var(--sidebar-background);
   color: var(--sidebar-text);
-  animation-name: sidebar-closing;
-  animation-duration: 0.3s;
-  animation-timing-function: var(--sidebar-transition);
 }
 
   .header{
