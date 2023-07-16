@@ -455,12 +455,14 @@ html {
 
 
 .leaflet-container {
-  transform: scale(1.35,1.35);
   width: 100%;
   height: 100vh;
   position: fixed;
   z-index: 1;
-  
+}
+
+.leaflet-container-moved {
+  left: 2000px;
 }
 
 .expand-button{

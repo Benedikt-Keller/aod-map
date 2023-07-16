@@ -1,5 +1,5 @@
 import React from "react";
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, Marker, Popup, CircleMarker } from 'react-leaflet'
 import { Icon, LatLng, marker } from 'leaflet'
 import "./index.css"
 import { useState, useEffect, useRef } from "react";
@@ -7,6 +7,8 @@ import _, { split } from 'lodash';
 import { getImageSize } from 'react-image-size';
 import Sidebar from "./components/sidebar";
 import { useWindowSize } from "usehooks-ts";
+import glify from "leaflet.glify";
+import { GlifyPoints } from 'react-leaflet-glify';
 
 export const icon = new Icon({
   iconUrl: "/blackdot.svg",
@@ -109,6 +111,7 @@ export default function App() {
   const [centerOnMarker, setCenterOnMarker] = React.useState(false);
   const [markerClicked, setMarkerClicked] = React.useState(false)
   const [lastPostDate, setLastPostDate] = React.useState("")
+  const [mapPosition, moveMapPosition] = React.useState("leaflet-container");
   const [zoomOut, setZoomOut] = React.useState(false);
 
   const [activerMarkerInfo, setActiveMarkerInfo] = React.useState(
@@ -134,6 +137,14 @@ export default function App() {
 
   const buildings = require("./data/aodscrape.json");
   const uniqueBuildings = getUnique(buildings.features, "Text1");
+  const points = [
+    { lat: 51.5, lng: -0.1 },
+    { lat: 51.51, lng: -0.1 },
+    { lat: 51.49, lng: -0.05 },
+    { lat: 51.49, lng: -0.05 },
+    { lat: 51.5, lng: -0.1 },
+  ];
+
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -150,9 +161,7 @@ export default function App() {
           overflow: "hidden"
         }}>
 
-          
-
-          <div className="header">
+<div className="header">
           <span className="header-text-small">ARCHITECTURE OF <br></br>DOOM</span>
           <span className="header-text-small-small">ARCHITECTURE OF <br></br>DOOM</span>
             <div className="header-text-container">
@@ -181,19 +190,16 @@ export default function App() {
           </div>
 
           <div className={`line ${markerClicked ? 'active' : ''}`}></div>
-         
-
-
-
-          <MapContainer center={[50.142255, 8.671575]}
+        
+          <MapContainer className={mapPosition} center={[50.142255, 8.671575]}
             zoom={2.7}
             maxBounds={[[-300, -260], [90, 260]]}
             maxBoundsViscosity={1}
-            detectRetina={true}
+            detectRetina={false}
             minZoom={1.5}
             maxZoom={15}
             zoomControl={false}
-
+            preferCanvas={true}
           >
             <MapController
               activeLatLong={activeLatLong}
@@ -213,6 +219,7 @@ export default function App() {
               detectRetina={true}
               tileSize={256}
               zoomOffset={0}
+              preferCanvas={true}
             />
             <Marker
               position={[activeMarkerLat, activeMarkerLng]}
@@ -220,7 +227,6 @@ export default function App() {
               key={activeLatLong}
               zIndexOffset={1000}
             ></Marker>
-
             <Marker
               position={[recentMarkerLat, recentMarkerLng]}
               icon={recentlySelectedIcon}
@@ -239,18 +245,37 @@ export default function App() {
               }}
             ></Marker>
 
+            <CircleMarker
+              center={[50.142255, 8.671575]}
+              color={'black'}
+              radius={5}
+              opacity={1.0}
+              fillOpacity={1.0}
+              stroke={false}
+              eventHandlers={{
+                click: (e) => {
+                  console.log("circle clicked")
+                }
+              }}
+            ></CircleMarker>
 
-
+              
             {uniqueBuildings.map(building => (
-              <Marker
-                position={[Number(building.latitude), Number(building.longitude)]}
-                icon={icon}
+              <CircleMarker
+                center={[Number(building.latitude), Number(building.longitude)]}
+                color={'black'}
+                radius={6}
+                opacity={1.0}
+                fillOpacity={1.0}
+                stroke={false}
                 key={building.Text1}
                 eventHandlers={{
                   click: (e) => {
                     // mark current marker
-                    //MapContainer.setView([Number(building.latitude),Number(building.longitude)], 9)
                     console.log('marker clicked')
+
+                    moveMapPosition("leaflet-container-moved")
+
                     setActiveMarkerTitle(building.Text1);
                     setActiveLatlong({
                       lat: building.latitude,
@@ -331,10 +356,9 @@ export default function App() {
 
 
               >
-              </Marker>
+              </CircleMarker>
 
             ))}
-
           </MapContainer>
 
 
