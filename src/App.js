@@ -147,6 +147,7 @@ export default function App() {
 
 
   const [isLoading, setIsLoading] = useState(false);
+  const [sidebarLoading, setSidebarLoading] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -175,7 +176,7 @@ export default function App() {
                   }}> 
                   <u> archive  </u></span>
                 </div>
-                <img className="header-icon" src="/orreddot.svg"></img>
+                <div className="header-icon"></div>
             </div>
           </div>
           <div className="header-links-small">
@@ -248,7 +249,7 @@ export default function App() {
             <CircleMarker
               center={[50.142255, 8.671575]}
               color={'black'}
-              radius={5}
+              radius={6}
               opacity={1.0}
               fillOpacity={1.0}
               stroke={false}
@@ -343,6 +344,7 @@ export default function App() {
                     })
                     const uniqueLinks = [...new Map(links2.map((m) => [m.link, m])).values()];
                     setMarkerClicked(true)
+                    setSidebarLoading(false)
                     setCenterOnMarker(false)
                     setActiveMarkerInfo(uniqueLinks)
                     setSidebarWidth("sidebar")
@@ -350,6 +352,8 @@ export default function App() {
                     setRecentMarkerLat(activeMarkerLng)
                     setActiveMarkerLat(Number(building.latitude))
                     setActiveMarkerLng(Number(building.longitude))
+                    document.documentElement.style.setProperty('--show-content', "hidden")
+                    document.documentElement.style.setProperty('--show-loading', "flex")
                     
                   },
                 }}
@@ -375,6 +379,8 @@ export default function App() {
             setRecentMarkerLng={setRecentMarkerLng}
             setCenterOnMarker={setCenterOnMarker}
             setMarkerClicked={setMarkerClicked}
+            sidebarLoading={sidebarLoading}
+            setSidebarLoading={setSidebarLoading}
           />
 
 
