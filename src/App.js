@@ -245,27 +245,12 @@ export default function App() {
                 }
               }}
             ></Marker>
-
-            <CircleMarker
-              center={[50.142255, 8.671575]}
-              color={'black'}
-              radius={6}
-              opacity={1.0}
-              fillOpacity={1.0}
-              stroke={false}
-              eventHandlers={{
-                click: (e) => {
-                  console.log("circle clicked")
-                }
-              }}
-            ></CircleMarker>
-
-              
+             
             {uniqueBuildings.map(building => (
               <CircleMarker
                 center={[Number(building.latitude), Number(building.longitude)]}
                 color={'black'}
-                radius={6}
+                radius={8}
                 opacity={1.0}
                 fillOpacity={1.0}
                 stroke={false}
