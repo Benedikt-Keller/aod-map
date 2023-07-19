@@ -12,17 +12,17 @@ import { GlifyPoints } from 'react-leaflet-glify';
 
 export const icon = new Icon({
   iconUrl: "/blackdot.svg",
-  iconSize: [13, 13]
+  iconSize: [16, 16]
 });
 
 export const selectedIcon = new Icon({
   iconUrl: "/orreddot.svg",
-  iconSize: [13, 13]
+  iconSize: [18, 18]
 });
 
 export const recentlySelectedIcon = new Icon({
   iconUrl: "/graydot.svg",
-  iconSize: [13, 13]
+  iconSize: [18, 18]
 });
 
 function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, markerClicked, zoomOut, setZoomOut }) {
@@ -39,9 +39,9 @@ function MapController({ activeLatLong, centerOnMarker, setCenterOnMarker, marke
   const { width, height } = windowSizeRef.current;
   const currCenter = map.getCenter()
   const activeLtLng = new LatLng(Number(activeLatLong.lat), Number(activeLatLong.long))
-  var x = map.latLngToContainerPoint(activeLtLng).x - window.innerWidth / 5.5;
+  var x = map.latLngToContainerPoint(activeLtLng).x - window.innerWidth / 4;
   var y = map.latLngToContainerPoint(activeLtLng).y;
-  var xb = map.latLngToContainerPoint(currCenter).x + window.innerWidth / 5.5;
+  var xb = map.latLngToContainerPoint(currCenter).x + window.innerWidth / 4;
   var yb = map.latLngToContainerPoint(currCenter).y
   var point = map.containerPointToLatLng([x, y])
   var pointb = map.containerPointToLatLng([xb,yb])
@@ -222,6 +222,7 @@ export default function App() {
               zoomOffset={0}
               preferCanvas={true}
             />
+
             <Marker
               position={[activeMarkerLat, activeMarkerLng]}
               icon={selectedIcon}
@@ -240,8 +241,6 @@ export default function App() {
                   setSidebarWidth("sidebar")
                   setActiveMarkerLat(recentMarkerLat)
                   setActiveMarkerLng(recentMarkerLng)
-                  
-
                 }
               }}
             ></Marker>
@@ -373,7 +372,7 @@ export default function App() {
         </div>) : (
         <div className="loading-screen">
           <span className="loading-text"> ARCHITECTURE OF DOOM</span>
-          <img className="loading-icon" src="/orreddot.svg" ></img>
+          <div className="loading-icon" ></div>
         </div>
       )}
     </>

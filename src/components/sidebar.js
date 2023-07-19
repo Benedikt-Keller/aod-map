@@ -43,7 +43,9 @@ function Sidebar({
     <div className="sidebar-rest" onClick={() => {
         setSidebarWidth("sidebar");
         setCenterOnMarker(false);
+        setMarkerClicked(true);
       } }>
+      <div className="sidebar-rest-text"> Sidebar</div>
       <SlArrowRight className="sidebar-arrow" />
     </div>
 
@@ -57,7 +59,9 @@ function Sidebar({
                     window.open("https://www.google.com/search?q=" + activeMarkerTitle, '_blank');
                   } }>
                     {activeMarkerTitle}
-                    <IoSearchOutline className="google-button" />
+                    <div className="search-button-container">
+                      <IoSearchOutline className="google-button" />
+                    </div>
                   </div>
                   <div className="sidebar-header-buttons">
                     <div className="close-button-container" onClick={() => {
@@ -82,7 +86,7 @@ function Sidebar({
 
               <div className="loading-container">
                 <span className="loading-text"> loading</span>
-                <img className="loading-icon-sidebar" src="/orreddot.svg"></img>
+                <div className="loading-icon-sidebar"></div>
               </div>
               {activeMarkerImages.map(element => (
                 <>
