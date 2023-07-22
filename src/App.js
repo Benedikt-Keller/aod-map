@@ -248,7 +248,7 @@ export default function App() {
             {uniqueBuildings.map(building => (
               <CircleMarker
                 center={[Number(building.latitude), Number(building.longitude)]}
-                color={'black'}
+                color={'#171717'}
                 radius={8}
                 opacity={1.0}
                 fillOpacity={1.0}
