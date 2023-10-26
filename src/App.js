@@ -212,7 +212,8 @@ export default function App() {
             ></MapController>
 
             <TileLayer
-              url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}"
+              url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png
+              "
               attribution='&copy; <Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               ext="png"
               minZoom={1}
@@ -338,7 +339,10 @@ export default function App() {
                     setActiveMarkerLng(Number(building.longitude))
                     document.documentElement.style.setProperty('--show-content', "hidden")
                     document.documentElement.style.setProperty('--show-loading', "flex")
-                    
+                    const sidebarDiv = document.getElementsByClassName('sidebar')[0];
+                    sidebarDiv.scrollTo({
+                    top: 0,
+                    });
                   },
                 }}
 

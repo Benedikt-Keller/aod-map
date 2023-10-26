@@ -532,7 +532,7 @@ html {
   z-index: 1500;
   top: 99px;
   width: 100%;
-  height: calc(var(--stroke-weight) - 0.5px);
+  height: var(--stroke-weight);
   background-color: var(--dark);
   transform-origin: center top;
   transition: width var(--sidebar-transition), opacity 0.1s ease-in ;
