@@ -214,7 +214,9 @@ export default function App() {
             <TileLayer
               url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png
               "
-              attribution='&copy; <Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>
+              &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a>
+              &copy; <a href="https://www.openstreetmap.org/about/" target="_blank">OpenStreetMap contributors</a>'
               ext="png"
               minZoom={1}
               maxZoom={30}
